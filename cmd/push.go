@@ -564,6 +564,10 @@ func (p *PushCmdParams) Run(ctx ActionCtx) (store.Status, error) {
 			r.AddError("error obtaining system account user: %v", err)
 			return r, nil
 		}
+	    var userJwt nats.UserJwt
+		userJwt = opt
+		jwt, err := userJwt.UserJWT()
+		r.addOK("[jad] jwt %s err %v", jwt, err)
 		nc, err := nats.Connect(p.ASU, createDefaultToolOptions("nsc_push", ctx, opt)...)
 		if err != nil {
 			r.AddError("failed to connect: %v", err)
