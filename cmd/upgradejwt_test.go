@@ -28,7 +28,7 @@ import (
 	"github.com/nats-io/nkeys"
 	"github.com/stretchr/testify/require"
 
-	"github.com/nats-io/nsc/v2/cmd/store"
+	"github.com/james64/nsc/v2/cmd/store"
 )
 
 func storeOperatorKey(t *testing.T, ts *TestStore, kp nkeys.KeyPair) {

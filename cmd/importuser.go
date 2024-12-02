@@ -23,7 +23,7 @@ import (
 	"github.com/nats-io/nkeys"
 	"github.com/spf13/cobra"
 
-	"github.com/nats-io/nsc/v2/cmd/store"
+	"github.com/james64/nsc/v2/cmd/store"
 )
 
 func createImportUserCmd() *cobra.Command {

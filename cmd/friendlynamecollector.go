@@ -18,7 +18,7 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/nats-io/nsc/v2/cmd/store"
+	"github.com/james64/nsc/v2/cmd/store"
 )
 
 // NewFriendlyNameCollector returns a map of public keys to

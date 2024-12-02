@@ -21,7 +21,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/nats-io/nsc/v2/cmd/store"
+	"github.com/james64/nsc/v2/cmd/store"
 	"github.com/stretchr/testify/require"
 )
 

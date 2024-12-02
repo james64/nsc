@@ -22,7 +22,7 @@ import (
 	"path/filepath"
 
 	"github.com/nats-io/nkeys"
-	"github.com/nats-io/nsc/v2/cmd/store"
+	"github.com/james64/nsc/v2/cmd/store"
 	"github.com/spf13/cobra"
 )
 

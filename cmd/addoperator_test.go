@@ -30,7 +30,7 @@ import (
 	jwtv1 "github.com/nats-io/jwt/v2/v1compat"
 	"github.com/stretchr/testify/require"
 
-	"github.com/nats-io/nsc/v2/cmd/store"
+	"github.com/james64/nsc/v2/cmd/store"
 )
 
 func Test_AddOperator(t *testing.T) {

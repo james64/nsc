@@ -25,7 +25,7 @@ import (
 
 	"github.com/nats-io/jwt/v2"
 
-	"github.com/nats-io/nsc/v2/cmd/store"
+	"github.com/james64/nsc/v2/cmd/store"
 )
 
 type MemResolverConfigBuilder struct {

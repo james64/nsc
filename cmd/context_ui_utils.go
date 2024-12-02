@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	cli "github.com/nats-io/cliprompts/v2"
-	"github.com/nats-io/nsc/v2/cmd/store"
+	"github.com/james64/nsc/v2/cmd/store"
 )
 
 func PickAccount(ctx *store.Context, name string) (string, error) {
