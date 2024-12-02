@@ -117,6 +117,7 @@ func processResponse(report *store.Report, resp *nats.Msg) (bool, string, interf
 
 // when sysAccName or sysAccUserName are "" we will try to find a suitable user
 func getSystemAccountUser(ctx ActionCtx, sysAccName, sysAccUserName, allowSub string, allowPubs ...string) (string, nats.Option, error, string) {
+	fmt.Fprintf(os.Stderr, "[jad-func] sysAccName %s sysAccUserName %s \n", sysAccName, sysAccUserName)
 	op, err := ctx.StoreCtx().Store.ReadOperatorClaim()
 	if err != nil {
 		return "", nil, err, "first"
@@ -138,6 +139,7 @@ func getSystemAccountUser(ctx ActionCtx, sysAccName, sysAccUserName, allowSub st
 	// Attempt to generate temporary user credentials and
 	if sysAccUserName == "" {
 		if keys, err := ctx.StoreCtx().GetAccountKeys(sysAccName); err == nil && len(keys) > 0 {
+			fmt.Fprintf(os.Stderr, "[jad-func] keys %v \n", keys)
 			key := ""
 			if op.StrictSigningKeyUsage {
 				if len(keys) > 1 {
@@ -150,10 +152,12 @@ func getSystemAccountUser(ctx ActionCtx, sysAccName, sysAccUserName, allowSub st
 			}
 			sysAccKp, err := ctx.StoreCtx().KeyStore.GetKeyPair(key)
 			if sysAccKp != nil && err == nil {
+				fmt.Fprintf(os.Stderr, "[jad-func] sysAccKp %v\n", sysAccKp)
 				defer sysAccKp.Wipe()
 				tmpUsrKp, err := nkeys.CreateUser()
 				if err == nil {
 					tmpUsrPub, err := tmpUsrKp.PublicKey()
+					fmt.Fprintf(os.Stderr, "[jad-func] tmpUsrPub %v err %v\n", tmpUsrPub, err)
 					if err == nil {
 						tmpUsrClaim := jwt.NewUserClaims(tmpUsrPub)
 						tmpUsrClaim.IssuerAccount = op.SystemAccount
@@ -569,7 +573,7 @@ func (p *PushCmdParams) Run(ctx ActionCtx) (store.Status, error) {
 			return r, nil
 		}
 
-		fmt.Fprintf(os.Stderr, "[jados] debugStr %s", debugStr)
+		fmt.Fprintf(os.Stderr, "[jados] debugStr %s\n", debugStr)
 
         someOpts := nats.Options{}
 		fmt.Fprintf(os.Stderr, "[jados] someOpts %+v\n", someOpts)
