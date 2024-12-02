@@ -20,6 +20,7 @@ import (
 	"errors"
 	"fmt"
 	"net/url"
+	"os"
 	"reflect"
 	"strings"
 	"time"
@@ -533,6 +534,7 @@ func listNonPresentAccounts(nc *nats.Conn, timeout int, report *store.Report, ma
 }
 
 func (p *PushCmdParams) Run(ctx ActionCtx) (store.Status, error) {
+	fmt.Fprintf(os.Stderr, "zaciatok")
 	ctx.CurrentCmd().SilenceUsage = true
 	var err error
 	p.targeted, err = p.getSelectedAccounts()
@@ -540,7 +542,6 @@ func (p *PushCmdParams) Run(ctx ActionCtx) (store.Status, error) {
 		return nil, err
 	}
 	r := store.NewDetailedReport(true)
-	r.addError("chyba")
 	if !IsResolverURL(p.ASU) {
 		for _, v := range p.targeted {
 			sub := store.NewReport(store.OK, "push %s to account server", v)
