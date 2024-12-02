@@ -154,8 +154,8 @@ func getSystemAccountUser(ctx ActionCtx, sysAccName, sysAccUserName, allowSub st
 			sysAccKp, err := ctx.StoreCtx().KeyStore.GetKeyPair(key)
 			fmt.Fprintf(os.Stderr, "[jad-func] chosen key pair err %v\n", err)
 			sysPubKey, jadErr := sysAccKp.PublicKey()
-			fmt.Fprintf(os.Stderr, "[jad-func] chosen key pair pub %v\n", sysPubKey)
 			fmt.Fprintf(os.Stderr, "[jad-func] chosen key pair pub err %v\n", jadErr)
+			fmt.Fprintf(os.Stderr, "[jad-func] chosen key pair pub %v\n", sysPubKey)
 			if sysAccKp != nil && err == nil {
 				defer sysAccKp.Wipe()
 				tmpUsrKp, err := nkeys.CreateUser()
