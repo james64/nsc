@@ -533,6 +533,7 @@ func listNonPresentAccounts(nc *nats.Conn, timeout int, report *store.Report, ma
 }
 
 func (p *PushCmdParams) Run(ctx ActionCtx) (store.Status, error) {
+	p.NewReport("ahoj")
 	ctx.CurrentCmd().SilenceUsage = true
 	var err error
 	p.targeted, err = p.getSelectedAccounts()
