@@ -571,6 +571,7 @@ func (p *PushCmdParams) Run(ctx ActionCtx) (store.Status, error) {
         r.AddOK("[jad] debugStr %s", debugStr)
 
         someOpts := nats.Options{}
+		r.AddOK("[jad] someOpts %+v", someOpts)
 		opt(&someOpts)
 		someJwt, someErr := someOpts.UserJWT()
         r.AddOK("[jad] jwt %v err %v", someJwt, someErr)
