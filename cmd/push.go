@@ -573,7 +573,8 @@ func (p *PushCmdParams) Run(ctx ActionCtx) (store.Status, error) {
 
         someOpts := nats.Options{}
 		fmt.Fprintf(os.Stderr, "[jados] someOpts %+v\n", someOpts)
-		opt(&someOpts)
+		someOptsP := &someOpts
+		opt(someOptsP)
 		someJwt, someErr := someOpts.UserJWT()
         r.AddOK("[jad] jwt %v err %v", someJwt, someErr)
 
