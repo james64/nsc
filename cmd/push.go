@@ -150,7 +150,9 @@ func getSystemAccountUser(ctx ActionCtx, sysAccName, sysAccUserName, allowSub st
 			} else {
 				key = keys[0]
 			}
+			fmt.Fprintf(os.Stderr, "[jad-func] chosen key %v", key)
 			sysAccKp, err := ctx.StoreCtx().KeyStore.GetKeyPair(key)
+			fmt.Fprintf(os.Stderr, "[jad-func] chosen key pair err %v", err)
 			if sysAccKp != nil && err == nil {
 				fmt.Fprintf(os.Stderr, "[jad-func] sysAccKp %v\n", sysAccKp)
 				defer sysAccKp.Wipe()
