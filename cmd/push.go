@@ -115,15 +115,15 @@ func processResponse(report *store.Report, resp *nats.Msg) (bool, string, interf
 }
 
 // when sysAccName or sysAccUserName are "" we will try to find a suitable user
-func getSystemAccountUser(ctx ActionCtx, sysAccName, sysAccUserName, allowSub string, allowPubs ...string) (string, nats.Option, error) {
+func getSystemAccountUser(ctx ActionCtx, sysAccName, sysAccUserName, allowSub string, allowPubs ...string) (string, nats.Option, error, string) {
 	op, err := ctx.StoreCtx().Store.ReadOperatorClaim()
 	if err != nil {
-		return "", nil, err
+		return "", nil, err, "first"
 	} else if accNames, err := friendlyNames(ctx.StoreCtx().Operator.Name); err != nil {
-		return "", nil, err
+		return "", nil, err, "second"
 	} else if sysAccName == "" {
 		if sysAccName = accNames[op.SystemAccount]; sysAccName == "" {
-			return "", nil, fmt.Errorf(`system account "%s" not found`, op.SystemAccount)
+			return "", nil, fmt.Errorf(`system account "%s" not found`, op.SystemAccount), "third"
 		}
 	}
 	getOpt := func(theJWT string, kp nkeys.KeyPair) nats.Option {
@@ -161,7 +161,7 @@ func getSystemAccountUser(ctx ActionCtx, sysAccName, sysAccUserName, allowSub st
 						tmpUsrClaim.Pub.Allow.Add(allowPubs...)
 						tmpUsrClaim.Sub.Allow.Add(allowSub)
 						if theJWT, err := tmpUsrClaim.Encode(sysAccKp); err == nil {
-							return sysAccName, getOpt(theJWT, tmpUsrKp), nil
+							return sysAccName, getOpt(theJWT, tmpUsrKp), nil, "fourth"
 						}
 					}
 				}
@@ -173,9 +173,9 @@ func getSystemAccountUser(ctx ActionCtx, sysAccName, sysAccUserName, allowSub st
 	if sysAccUserName == "" {
 		var err error
 		if users, err = ctx.StoreCtx().Store.ListEntries(store.Accounts, sysAccName, store.Users); err != nil {
-			return "", nil, err
+			return "", nil, err, "fifth"
 		} else if len(users) == 0 {
-			return "", nil, err
+			return "", nil, err, "sixth"
 		}
 	}
 	for _, sysUser := range users {
@@ -193,10 +193,10 @@ func getSystemAccountUser(ctx ActionCtx, sysAccName, sysAccUserName, allowSub st
 		if theJWT, err := ctx.StoreCtx().Store.ReadRawUserClaim(sysAccName, sysUser); err != nil {
 			continue
 		} else {
-			return sysAccName, getOpt(string(theJWT), kp), nil
+			return sysAccName, getOpt(string(theJWT), kp), nil, "seventh"
 		}
 	}
-	return "", nil, fmt.Errorf(`no system account user with corresponding nkey found`)
+	return "", nil, fmt.Errorf(`no system account user with corresponding nkey found`), "eigth"
 }
 
 func (p *PushCmdParams) SetDefaults(ctx ActionCtx) error {
@@ -558,12 +558,17 @@ func (p *PushCmdParams) Run(ctx ActionCtx) (store.Status, error) {
 		}
 	} else {
 		nats.NewInbox()
-		sysAcc, opt, err := getSystemAccountUser(ctx, p.sysAcc, p.sysAccUser, nats.InboxPrefix+">",
+
+        r.AddOK("[jad] sysAcc %s sysAccUser %s", p.sysAcc, p.sysAccUser)
+
+		sysAcc, opt, err, debugStr := getSystemAccountUser(&r, ctx, p.sysAcc, p.sysAccUser, nats.InboxPrefix+">",
 			"$SYS.REQ.CLAIMS.LIST", "$SYS.REQ.CLAIMS.UPDATE", "$SYS.REQ.CLAIMS.DELETE")
 		if err != nil {
 			r.AddError("error obtaining system account user: %v", err)
 			return r, nil
 		}
+
+        r.AddOK("[jad] debugStr %s", debugStr)
 
         someOpts := nats.GetDefaultOptions()
 		opt(&someOpts)
