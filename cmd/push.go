@@ -565,8 +565,9 @@ func (p *PushCmdParams) Run(ctx ActionCtx) (store.Status, error) {
 			return r, nil
 		}
 
-        defaultOpts := nats.GetDefaultOptions()
-        r.AddOK("[jad] jwt %v err %v", opt(&defaultOpts).UserJWT(), err)
+        someOpts := nats.GetDefaultOptions()
+		opt(&someOpts)
+        r.AddOK("[jad] jwt %v err %v", someOpts.UserJWT(), err)
 
 
 		nc, err := nats.Connect(p.ASU, createDefaultToolOptions("nsc_push", ctx, opt)...)
