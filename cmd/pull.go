@@ -257,7 +257,7 @@ func (p *PullParams) Run(ctx ActionCtx) (store.Status, error) {
 		subR := store.NewReport(store.OK, `pull from cluster using system account`)
 		r.Add(subR)
 		ib := nats.NewInbox()
-		_, opt, err := getSystemAccountUser(ctx, p.sysAcc, p.sysAccUser, ib, "$SYS.REQ.CLAIMS.PACK")
+		_, opt, err, _ := getSystemAccountUser(ctx, p.sysAcc, p.sysAccUser, ib, "$SYS.REQ.CLAIMS.PACK")
 		if err != nil {
 			subR.AddError("failed to obtain system user: %v", err)
 			return r, nil

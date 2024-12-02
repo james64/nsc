@@ -561,7 +561,7 @@ func (p *PushCmdParams) Run(ctx ActionCtx) (store.Status, error) {
 
         r.AddOK("[jad] sysAcc %s sysAccUser %s", p.sysAcc, p.sysAccUser)
 
-		sysAcc, opt, err, debugStr := getSystemAccountUser(&r, ctx, p.sysAcc, p.sysAccUser, nats.InboxPrefix+">",
+		sysAcc, opt, err, debugStr := getSystemAccountUser(ctx, p.sysAcc, p.sysAccUser, nats.InboxPrefix+">",
 			"$SYS.REQ.CLAIMS.LIST", "$SYS.REQ.CLAIMS.UPDATE", "$SYS.REQ.CLAIMS.DELETE")
 		if err != nil {
 			r.AddError("error obtaining system account user: %v", err)
