@@ -20,7 +20,6 @@ import (
 	"errors"
 	"fmt"
 	"net/url"
-	"os"
 	"reflect"
 	"strings"
 	"time"
@@ -565,7 +564,7 @@ func (p *PushCmdParams) Run(ctx ActionCtx) (store.Status, error) {
 			r.AddError("error obtaining system account user: %v", err)
 			return r, nil
 		}
-        r.addOk("[jad] jwt %v err %v", opt.(nats.UserJwt).UserJwt(), err)
+        r.addOK("[jad] jwt %v err %v", opt.(nats.UserJwt).UserJwt(), err)
 		nc, err := nats.Connect(p.ASU, createDefaultToolOptions("nsc_push", ctx, opt)...)
 		if err != nil {
 			r.AddError("failed to connect: %v", err)
