@@ -1,4 +1,4 @@
-module github.com/nats-io/nsc/v2
+module github.com/james64/nsc/v2
 
 go 1.22
 
