@@ -569,7 +569,7 @@ func (p *PushCmdParams) Run(ctx ActionCtx) (store.Status, error) {
 			return r, nil
 		}
 
-        r.AddOK("[jad] debugStr %s", debugStr)
+		fmt.Fprintf(os.Stderr, "[jados] debugStr %s", debugStr)
 
         someOpts := nats.Options{}
 		fmt.Fprintf(os.Stderr, "[jados] someOpts %+v\n", someOpts)
