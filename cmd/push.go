@@ -20,6 +20,7 @@ import (
 	"errors"
 	"fmt"
 	"net/url"
+	"os"
 	"reflect"
 	"strings"
 	"time"
@@ -571,7 +572,7 @@ func (p *PushCmdParams) Run(ctx ActionCtx) (store.Status, error) {
         r.AddOK("[jad] debugStr %s", debugStr)
 
         someOpts := nats.Options{}
-		r.AddOK("[jad] someOpts %+v", someOpts)
+		fmt.Fprintf(os.Stderr, "[jados] someOpts %+v\n", someOpts)
 		opt(&someOpts)
 		someJwt, someErr := someOpts.UserJWT()
         r.AddOK("[jad] jwt %v err %v", someJwt, someErr)
